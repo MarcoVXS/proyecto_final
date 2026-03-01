@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- App -->
+    <string name="app_name">FitPal</string>
+    <string name="app_name_upper">FITPAL</string>
+    <string name="tagline">Impulsa tu potencial</string>
+    <string name="version_label">v2.4.0 © 2026 FitPal Inc.</string>
+
+    <!-- Login -->
+    <string name="login_title">Iniciar Sesión</string>
+    <string name="login_subtitle">Bienvenido de nuevo a FitPal</string>
+    <string name="btn_login">ENTRAR</string>
+
+    <!-- Register -->
+<!--    <string name="register_title">Crear Cuenta</string>-->
+    <string name="register_subtitle">Únete a la comunidad FitPal hoy.</string>
+    <string name="btn_register">Registrarse</string>
+    <string name="register_title">Crear nueva cuenta</string>
+
+    <!-- Form labels -->
+    <string name="label_email">Correo Electrónico</string>
+    <string name="label_password">Contraseña</string>
+    <string name="label_full_name">Nombre Completo</string>
+    <string name="label_confirm_password">Confirmar Contraseña</string>
+
+    <!-- Hints -->
+    <string name="hint_email">nombre@ejemplo.com</string>
+    <string name="hint_email_register">ejemplo@fitpal.com</string>
+    <string name="hint_password">Ingresar contraseña</string>
+    <string name="hint_password_create">Crea una contraseña</string>
+    <string name="hint_password_confirm">Repite la contraseña</string>
+    <string name="hint_full_name">Juan Pérez</string>
+
+    <!-- Home -->
+    <string name="home_greeting">Hola Marco 👋</string>
+    <string name="home_subtitle">¿Listo para tu comida saludable?</string>
+    <string name="home_search_hint">Buscar recetas, ingredientes…</string>
+    <string name="home_recipes_title">Nuestras Recetas</string>
+
+    <!-- Accessibility -->
+    <string name="cd_back">Regresar</string>
+    <string name="cd_fab_add">Añadir receta</string>
+</resources>

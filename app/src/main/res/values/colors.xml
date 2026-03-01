@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Brand -->
+    <color name="primary">#D02525</color>
+    <color name="primary_dim">#33D02525</color>
+
+    <!-- Backgrounds -->
+    <color name="background_dark">#121212</color>
+    <color name="background_light">#F8F6F6</color>
+    <color name="background_login">#120909</color>
+    <color name="background_register">#201212</color>
+    <color name="input_bg">#1A0D0D</color>
+    <color name="card_bg">#1A1A1A</color>
+
+    <!-- Text -->
+    <color name="text_primary">#F1F5F9</color>
+    <color name="text_secondary">#94A3B8</color>
+    <color name="text_hint">#64748B</color>
+
+    <!-- System defaults -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

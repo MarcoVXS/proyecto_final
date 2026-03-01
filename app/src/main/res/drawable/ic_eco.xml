@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Eco / Leaf icon — equivalent of Material Symbols "eco" filled.
+    Drawn at 24x24 viewport.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="52dp"
+    android:height="52dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+
+    <path
+        android:fillColor="#D02525"
+        android:pathData="M6.05,8.5C6.05,4.5 9.77,1 14.5,1C19.23,1 22.95,4.5 22.95,8.5
+            C22.95,13.55 18.5,17.5 14.5,17.5C12.95,17.5 11.5,17.05 10.32,16.27
+            L7,23H5L8.73,15.5C7.12,13.96 6.05,11.35 6.05,8.5Z
+            M14.5,3C10.91,3 8.05,5.45 8.05,8.5C8.05,11.55 10.91,14 14.5,14
+            C18.09,14 20.95,11.55 20.95,8.5C20.95,5.45 18.09,3 14.5,3Z" />
+
+</vector>

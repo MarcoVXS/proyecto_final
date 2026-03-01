@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Radial gradient glow used as ambient background behind the logo.
+    Simulates the CSS: bg-primary/5 rounded-full blur.
+    Color is #D02525 at ~8% opacity fading to transparent.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+
+    <gradient
+        android:type="radial"
+        android:gradientRadius="50%"
+        android:startColor="#14D02525"
+        android:endColor="#00D02525"
+        android:centerX="0.5"
+        android:centerY="0.5" />
+
+</shape>

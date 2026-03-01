@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/splash_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_dark">
+
+    <!-- Ambient glow (radial gradient overlay) -->
+    <ImageView
+        android:id="@+id/iv_glow"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:src="@drawable/bg_glow"
+        android:alpha="0.0"
+        tools:alpha="1.0"
+        android:contentDescription="@null"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- ========== CENTER LOGO SECTION ========== -->
+    <!-- Logo row: icon + wordmark -->
+    <LinearLayout
+        android:id="@+id/ll_logo_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        tools:alpha="1.0"
+        android:alpha="1.0"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_tagline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.48">
+
+        <!-- Leaf / Eco icon -->
+        <ImageView
+            android:id="@+id/iv_logo_icon"
+            android:layout_width="52dp"
+            android:layout_height="52dp"
+            android:src="@drawable/ic_eco"
+            android:contentDescription="@string/app_name" />
+
+        <!-- Spacer -->
+        <Space
+            android:layout_width="12dp"
+            android:layout_height="1dp" />
+
+        <!-- FITPAL wordmark -->
+        <TextView
+            android:id="@+id/tv_brand"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name_upper"
+            android:textColor="@color/text_primary"
+            android:textSize="52sp"
+            android:letterSpacing="-0.02"
+            android:fontFamily="@font/playfair_display_bold"
+            tools:ignore="SmallSp" />
+    </LinearLayout>
+
+    <!-- Tagline -->
+    <TextView
+        android:id="@+id/tv_tagline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tagline"
+        android:textColor="@color/text_secondary"
+        android:textSize="12sp"
+        android:letterSpacing="0.18"
+        android:textAllCaps="true"
+        android:alpha="1.0"
+        tools:alpha="1.0"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_logo_row"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.48" />
+
+    <!-- ========== BOTTOM SECTION ========== -->
+
+    <!-- Loading -->
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieSplash"
+        android:layout_width="110dp"
+        android:layout_height="110dp"
+        app:lottie_fileName="splash_anim.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="150dp"
+        />
+
+    <!-- Version / Copyright -->
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/version_label"
+        android:textColor="@color/text_hint"
+        android:textSize="9sp"
+        android:letterSpacing="0.14"
+        android:textAllCaps="true"
+        android:alpha="1.0"
+        tools:alpha="1.0"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="SmallSp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
