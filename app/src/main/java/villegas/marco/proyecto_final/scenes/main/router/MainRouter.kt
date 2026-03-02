@@ -13,7 +13,7 @@ class MainRouter(val context: Context, val activity: BaseActivity) {
         // Activity a la que queremos llamar para viajar ahi
         val intent = Intent(this.context, HomeActivity::class.java)
         // PutExtra -> Envio de parametros
-        intent.putExtra(HomeViewModel.PARAM_NAME, name)
+        intent.putExtra("EXTRA_USER_NAME", name)
         this.context.startActivity(intent)
 
         this.activity.finish()

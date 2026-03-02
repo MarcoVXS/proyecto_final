@@ -24,7 +24,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <!-- Top gradient bar (decorative, 2dp) -->
+    <!-- Top gradient bar (decorativo) -->
     <View android:id="@+id/v_top_bar"
         android:layout_width="0dp" android:layout_height="2dp"
         android:background="@drawable/bg_gradient_top"
@@ -52,18 +52,13 @@
             android:paddingTop="40dp"
             android:paddingBottom="32dp">
 
-            <!-- Logo: red rounded square + dumbbell icon -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="56dp" android:layout_height="56dp"
-                app:cardBackgroundColor="@color/primary"
-                app:cardCornerRadius="14dp"
-                app:cardElevation="12dp">
-                <ImageView
-                    android:layout_width="30dp" android:layout_height="30dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/ic_fitness_center"
-                    android:contentDescription="@null"/>
-            </com.google.android.material.card.MaterialCardView>
+            <!-- Logo FITPAL -->
+            <ImageView
+                android:id="@+id/iv_logo_icon"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/logo_fitpal"
+                android:contentDescription="@string/app_name" />
 
             <!-- Title -->
             <TextView android:id="@+id/tv_title"

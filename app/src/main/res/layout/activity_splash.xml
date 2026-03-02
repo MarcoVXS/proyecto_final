@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:background="@color/background_dark">
 
-    <!-- Ambient glow (radial gradient overlay) -->
+    <!-- Ambient glow -->
     <ImageView
         android:id="@+id/iv_glow"
         android:layout_width="400dp"
@@ -22,8 +22,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- ========== CENTER LOGO SECTION ========== -->
-    <!-- Logo row: icon + wordmark -->
     <LinearLayout
         android:id="@+id/ll_logo_row"
         android:layout_width="wrap_content"
@@ -39,30 +37,26 @@
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintVertical_bias="0.48">
 
-        <!-- Leaf / Eco icon -->
+        <!-- Icono -->
         <ImageView
             android:id="@+id/iv_logo_icon"
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:src="@drawable/ic_eco"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/logo_splash"
             android:contentDescription="@string/app_name" />
 
-        <!-- Spacer -->
-        <Space
-            android:layout_width="12dp"
-            android:layout_height="1dp" />
-
-        <!-- FITPAL wordmark -->
+        <!-- Texto FITPAL -->
         <TextView
-            android:id="@+id/tv_brand"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/app_name_upper"
-            android:textColor="@color/text_primary"
-            android:textSize="52sp"
-            android:letterSpacing="-0.02"
-            android:fontFamily="@font/playfair_display_bold"
-            tools:ignore="SmallSp" />
+        android:id="@+id/tv_brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:fontFamily="@font/playfair_display_bold"
+        android:letterSpacing="-0.02"
+        android:text="@string/app_name_upper"
+        android:textColor="@color/text_primary"
+        android:textSize="52sp"
+        tools:ignore="SmallSp" />
     </LinearLayout>
 
     <!-- Tagline -->
@@ -84,8 +78,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_chainStyle="packed"
         app:layout_constraintVertical_bias="0.48" />
-
-    <!-- ========== BOTTOM SECTION ========== -->
 
     <!-- Loading -->
     <com.airbnb.lottie.LottieAnimationView

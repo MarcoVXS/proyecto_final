@@ -8,7 +8,7 @@
 
     <!-- Login -->
     <string name="login_title">Iniciar Sesión</string>
-    <string name="login_subtitle">Bienvenido de nuevo a FitPal</string>
+    <string name="login_subtitle">Bienvenido a FitPal</string>
     <string name="btn_login">ENTRAR</string>
 
     <!-- Register -->
@@ -32,7 +32,7 @@
     <string name="hint_full_name">Juan Pérez</string>
 
     <!-- Home -->
-    <string name="home_greeting">Hola Marco 👋</string>
+    <string name="home_greeting">Hola, Usuario 👋</string>
     <string name="home_subtitle">¿Listo para tu comida saludable?</string>
     <string name="home_search_hint">Buscar recetas, ingredientes…</string>
     <string name="home_recipes_title">Nuestras Recetas</string>

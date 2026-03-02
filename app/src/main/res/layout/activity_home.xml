@@ -31,10 +31,11 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:scaleType="centerCrop"
-                android:src="@color/primary"
+                android:src="@drawable/ic_person"
                 app:shapeAppearanceOverlay="@style/ShapeCircle"
                 app:strokeColor="@color/primary"
-                app:strokeWidth="2dp" />
+                app:strokeWidth="2dp"
+                android:padding="1dp"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -91,11 +92,11 @@
                 android:text="Beef" />
 
             <com.google.android.material.chip.Chip
-                android:id="@+id/chipVegan"
+                android:id="@+id/chipChicken"
                 style="@style/FitPalChip"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Vegan" />
+                android:text="Chicken" />
 
         </com.google.android.material.chip.ChipGroup>
 
@@ -112,7 +113,7 @@
 
     </LinearLayout>
 
-    <!--  Contenedor para fragments (Se muestra/oculta desde HomeActivity) -->
+    <!-- Contenedor para fragments (Se muestra/oculta desde HomeActivity para cambiar entre Inicio y Perfil) -->
     <FrameLayout
         android:id="@+id/fl_fragment_container"
         android:layout_width="0dp"

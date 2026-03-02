@@ -3,7 +3,7 @@ package villegas.marco.proyecto_final.dataClass
 import androidx.annotation.DrawableRes
 
     enum class Category {
-        SEAFOOD, BEEF, VEGAN
+        SEAFOOD, BEEF, CHICKEN
     }
 
     data class Recipe(

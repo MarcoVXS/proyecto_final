@@ -8,4 +8,6 @@ object SharedPreferenceConstants {
 
     const val IS_LOGGED_KEY = "IS_LOGGED_KEY"
     const val IS_REGISTERED_KEY = "IS_REGISTERED_KEY"
+
+    const val PROFILE_PHOTO_URI_KEY = "PROFILE_PHOTO_URI_KEY"
 }
