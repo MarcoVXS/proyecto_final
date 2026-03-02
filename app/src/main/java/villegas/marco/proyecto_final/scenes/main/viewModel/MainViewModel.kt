@@ -45,8 +45,6 @@ class MainViewModel(val context: Context, val activity: BaseActivity): ViewModel
         Log.i(TAG, "isValid: ${this.model.isValidForm.value}")
     }
 
-    // TODO: Agregar observers unicos de usuario y contrasena.
-
     fun validateEmail() {
         Log.i(TAG, "User: ${this.user}")
         this.model.isValidEmail.value = !this.user.email.isEmpty()
