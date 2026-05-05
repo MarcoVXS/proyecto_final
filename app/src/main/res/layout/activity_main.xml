@@ -101,6 +101,10 @@
                     android:textColor="@color/text_primary"
                     android:textColorHint="@color/text_hint"
                     android:textSize="15sp"/>
+
+                <Space
+                    android:layout_width="1dp"
+                    android:layout_height="24dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Password Label -->
@@ -146,14 +150,15 @@
                 app:backgroundTint="@color/primary"
                 app:cornerRadius="12dp" />
 
-            <Space android:layout_width="1dp" android:layout_height="24dp"/>
-
             <!-- Footer register link -->
-            <TextView android:id="@+id/tv_register"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:textSize="16sp"
+            <TextView
+                android:id="@+id/tv_register"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
                 android:text="@string/btn_register"
-                android:textColor="@color/text_secondary"/>
+                android:textColor="@color/text_secondary"
+                android:textSize="16sp" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

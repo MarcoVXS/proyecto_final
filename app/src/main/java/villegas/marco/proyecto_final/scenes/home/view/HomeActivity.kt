@@ -5,10 +5,16 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import org.json.JSONObject
 import villegas.marco.proyecto_final.R
 import villegas.marco.proyecto_final.dataClass.Category
 import villegas.marco.proyecto_final.dataClass.Recipe
+import villegas.marco.proyecto_final.dataClass.TheMealDbMeal
+import villegas.marco.proyecto_final.dataClass.toRecipe
 import villegas.marco.proyecto_final.databinding.ActivityHomeBinding
+import villegas.marco.proyecto_final.networking.Models.TheMealAPI
+import villegas.marco.proyecto_final.networking.RequestListener
+import villegas.marco.proyecto_final.networking.RequestManager
 import villegas.marco.proyecto_final.scenes.base.BaseActivity
 import villegas.marco.proyecto_final.scenes.home.adapter.RecipeAdapter
 import villegas.marco.proyecto_final.scenes.home.viewModel.HomeViewModel
@@ -18,10 +24,8 @@ import villegas.marco.proyecto_final.sharedPreference.SharedPreferenceManager
 
 class HomeActivity: BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
-    private lateinit  var viewModel: HomeViewModel
+    private lateinit var viewModel: HomeViewModel
     private lateinit var recipeAdapter: RecipeAdapter
-    private var allRecipes: List<Recipe> = emptyList()
-    private val TAG = HomeActivity::class.java.simpleName
 
     private companion object {
         const val EXTRA_USER_NAME = "EXTRA_USER_NAME"
@@ -30,21 +34,6 @@ class HomeActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-
-        // Para probar antes de implementar API
-        allRecipes = listOf(
-            Recipe("seafood1", "Spanish Seafood Rice", 15, 240, 4.8, R.drawable.spanish_seafood_rice, Category.SEAFOOD),
-            Recipe("seafood2", "Seafood Fideuà", 25, 410, 4.9, R.drawable.seafood_fideua, Category.SEAFOOD),
-            Recipe("seafood3", "Seafood Rice", 10, 190, 4.5, R.drawable.seafood_rice, Category.SEAFOOD),
-
-            Recipe("beef1", "Massaman Beef Curry", 20, 520, 4.7, R.drawable.beef_curry, Category.BEEF),
-            Recipe("beef2", "Beef Lo Mein", 18, 430, 4.6, R.drawable.beef_lomein, Category.BEEF),
-            Recipe("beef3", "Beef Empanadas", 20, 475, 4.5, R.drawable.beef_empanadas, Category.BEEF),
-
-            Recipe("chicken1", "Teriyaki Chicken Casserole", 15, 320, 4.8, R.drawable.chicken_teriyaki, Category.CHICKEN),
-            Recipe("chicken2", "Vietnamese chicken salad", 10, 280, 4.7, R.drawable.chicken_salad, Category.CHICKEN),
-            Recipe("chicken3", "Thai green chicken soup", 12, 195, 4.9, R.drawable.chicken_soup, Category.CHICKEN),
-        )
 
         this.configureActivity()
     }
@@ -65,12 +54,11 @@ class HomeActivity: BaseActivity() {
 
         updateGreeting()
 
-        // RecyclerView setup
         recipeAdapter = RecipeAdapter()
         binding.rvRecipes.layoutManager = LinearLayoutManager(this)
         binding.rvRecipes.adapter = recipeAdapter
 
-        applyCategory(Category.SEAFOOD)
+        loadRecipes(Category.SEAFOOD)
 
         viewModel = HomeViewModel(this, this)
     }
@@ -84,24 +72,19 @@ class HomeActivity: BaseActivity() {
             showProfile()
         }
 
-        // Chips listener para cambiar categoria cuando usuario interactua
         binding.cgCategories.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
-                R.id.chipSeafood -> applyCategory(Category.SEAFOOD)
-                R.id.chipBeef -> applyCategory(Category.BEEF)
-                R.id.chipChicken -> applyCategory(Category.CHICKEN)
+                R.id.chipSeafood -> loadRecipes(Category.SEAFOOD)
+                R.id.chipBeef -> loadRecipes(Category.BEEF)
+                R.id.chipChicken -> loadRecipes(Category.CHICKEN)
             }
         }
 
-        // Estado inicial
         showHome()
     }
 
     private fun updateGreeting() {
-        // Intentar agarrar el nombre de usuario mediante parametros de router intent
         val nameFromIntent = intent.getStringExtra(EXTRA_USER_NAME)?.trim().orEmpty()
-
-        // Fallback a SharedPreferences si viene vacío
         val name = if (nameFromIntent.isNotBlank()) {
             nameFromIntent
         } else {
@@ -113,41 +96,30 @@ class HomeActivity: BaseActivity() {
         this.binding.tvGreeting.text = if (name.isNotBlank()) {
             "Hola, $name \uD83D\uDC4B"
         } else {
-            // text fijo como fallback si no se encuentra el nombre de usuario
             getString(R.string.home_greeting)
         }
     }
 
-    // Intenta asignar foto de perfil guardada en sharedPreference al avatar de inicio
     private fun updateAvatarFromPrefs() {
         val prefs = SharedPreferenceManager(this)
         val savedUri = prefs.getString(SharedPreferenceConstants.PROFILE_PHOTO_URI_KEY)
         if (savedUri.isNotBlank()) {
             binding.ivAvatar.setImageURI(Uri.parse(savedUri))
         } else {
-            binding.ivAvatar.setImageResource(R.drawable.ic_person) // default
+            binding.ivAvatar.setImageResource(R.drawable.ic_person)
         }
     }
 
-    // Filtra la lista asociada a la categoria seleccionada
-    private fun applyCategory(category: Category) {
-        val filtered = allRecipes.filter { it.category == category }
-        recipeAdapter.submitList(filtered)
-    }
-
-    // Mostrar pantalla de inicio
     private fun showHome() {
         this.binding.rvRecipes.visibility = android.view.View.VISIBLE
         this.binding.flFragmentContainer.visibility = android.view.View.GONE
         setBottomNavSelected(isHomeSelected = true)
     }
 
-    // Mostrar pantalla de perfil de usuario
     private fun showProfile() {
         this.binding.rvRecipes.visibility = android.view.View.GONE
         this.binding.flFragmentContainer.visibility = android.view.View.VISIBLE
 
-        // Cargar fragment solo si aun no esta cargado
         val current = supportFragmentManager.findFragmentById(R.id.fl_fragment_container)
         if (current !is ProfileFragment) {
             supportFragmentManager
@@ -159,17 +131,57 @@ class HomeActivity: BaseActivity() {
         setBottomNavSelected(isHomeSelected = false)
     }
 
-    // Cambia la apariencia de los botones de navegacion cuando el usuario interactua con ellos
     private fun setBottomNavSelected(isHomeSelected: Boolean) {
         val primary = ContextCompat.getColor(this, R.color.primary)
         val inactive = ContextCompat.getColor(this, R.color.text_hint)
 
-        // Tint para textos
         this.binding.tvNavHome.setTextColor(if (isHomeSelected) primary else inactive)
         this.binding.tvNavProfile.setTextColor(if (isHomeSelected) inactive else primary)
-
-        // Tint para iconos
         this.binding.ivNavHome.setColorFilter(if (isHomeSelected) primary else inactive)
         this.binding.ivNavProfile.setColorFilter(if (isHomeSelected) inactive else primary)
+    }
+
+    private fun categoryToApiValue(category: Category): String = when (category) {
+        Category.SEAFOOD -> "Seafood"
+        Category.BEEF -> "Beef"
+        Category.CHICKEN -> "Chicken"
+    }
+
+    private fun loadRecipes(category: Category) {
+        val apiCategory = categoryToApiValue(category)
+        val target = TheMealAPI.filterMealsByCategory(apiCategory)
+
+        RequestManager(this).request(target, authorized = false, object : RequestListener {
+            override fun onResponse(response: String) {
+                val recipes = parseRecipes(response, category)
+                recipeAdapter.submitList(recipes)
+            }
+
+            override fun onError(error: String) {
+                recipeAdapter.submitList(emptyList())
+            }
+        })
+    }
+
+    private fun parseRecipes(response: String, category: Category): List<Recipe> {
+        return try {
+            val mealsArray = JSONObject(response).optJSONArray("meals") ?: return emptyList()
+            val meals = mutableListOf<TheMealDbMeal>()
+
+            for (index in 0 until mealsArray.length()) {
+                val mealJson = mealsArray.optJSONObject(index) ?: continue
+                meals.add(
+                    TheMealDbMeal(
+                        strMeal = mealJson.optString("strMeal"),
+                        strMealThumb = mealJson.optString("strMealThumb"),
+                        idMeal = mealJson.optString("idMeal")
+                    )
+                )
+            }
+
+            meals.map { it.toRecipe(category) }
+        } catch (e: Exception) {
+            emptyList()
+        }
     }
 }

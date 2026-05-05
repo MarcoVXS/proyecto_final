@@ -12,6 +12,6 @@ import androidx.annotation.DrawableRes
         val minutes: Int,
         val kcal: Int,
         val rating: Double,
-        @DrawableRes val imageRes: Int,
+        val imageUrl: String,
         val category: Category
     )

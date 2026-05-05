@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import villegas.marco.proyecto_final.dataClass.Recipe
 import villegas.marco.proyecto_final.databinding.ItemRecipeBinding
+import coil.load
 class RecipeAdapter : ListAdapter<Recipe, RecipeAdapter.RecipeVH>(Diff) {
 
     object Diff : DiffUtil.ItemCallback<Recipe>() {
@@ -29,7 +30,7 @@ class RecipeAdapter : ListAdapter<Recipe, RecipeAdapter.RecipeVH>(Diff) {
 
     class RecipeVH(private val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: Recipe) = with(binding) {
-            ivRecipeImage.setImageResource(item.imageRes)
+            ivRecipeImage.load(item.imageUrl) {crossfade(true)}
             tvTitle.text = item.title
             tvRating.text = "${item.rating}"
             tvMeta1.text = "${item.minutes} min"

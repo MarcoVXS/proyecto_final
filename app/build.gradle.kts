@@ -62,4 +62,8 @@ dependencies {
     // LottieFiles
     implementation("com.airbnb.android:lottie:6.4.1")
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.android.volley:volley:1.2.1")
+
+// Coil (cargar imágenes desde URL)
+    implementation("io.coil-kt:coil:2.7.0")
 }
