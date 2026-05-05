@@ -1,11 +1,10 @@
 package villegas.marco.proyecto_final.networking
 
-/**
- * Interface para las peticiones
- * @property onResponse: Función que se ejecuta cuando se recibe una respuesta
- * @property onError: Función que se ejecuta cuando se recibe un error
- */
+// Permite responder cuando una peticion termina bien o falla.
 interface RequestListener {
+    // Se ejecuta cuando el API regresa una respuesta correcta.
     fun onResponse(response: String)
+
+    // Se ejecuta cuando Volley detecta un error en la peticion.
     fun onError(error: String)
 }

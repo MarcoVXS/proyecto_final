@@ -5,13 +5,11 @@ import android.content.Intent
 import villegas.marco.proyecto_final.scenes.main.view.MainActivity
 import villegas.marco.proyecto_final.scenes.splash.view.SplashActivity
 
+// Router del splash. Solo navega hacia el login.
 class SplashRouter(val context: Context, val activity: SplashActivity) {
-    // Navegar al login de la app
+    // Abre MainActivity y cierra el splash.
     fun routeToMainView() {
-        // Levanta otra actividad
         this.context.startActivity(Intent(this.context, MainActivity::class.java))
-
-        // Finaliza la actividad actual para no poder retroceder
         this.activity.finish()
     }
 }

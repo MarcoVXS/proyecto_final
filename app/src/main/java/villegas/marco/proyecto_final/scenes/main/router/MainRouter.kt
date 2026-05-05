@@ -4,18 +4,16 @@ import android.content.Context
 import android.content.Intent
 import villegas.marco.proyecto_final.scenes.base.BaseActivity
 import villegas.marco.proyecto_final.scenes.home.view.HomeActivity
-import villegas.marco.proyecto_final.scenes.home.viewModel.HomeViewModel
 
+// Router del login. Se encarga de cambiar de pantalla.
 class MainRouter(val context: Context, val activity: BaseActivity) {
-    private val TAG = this::class.java.simpleName
-
+    // Navega a Home y manda el nombre del usuario.
     fun routeToHomeView(name: String) {
-        // Activity a la que queremos llamar para viajar ahi
         val intent = Intent(this.context, HomeActivity::class.java)
-        // PutExtra -> Envio de parametros
         intent.putExtra("EXTRA_USER_NAME", name)
         this.context.startActivity(intent)
 
+        // Cierra el login para que el usuario no regrese con back.
         this.activity.finish()
     }
 }

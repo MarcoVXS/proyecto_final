@@ -2,16 +2,17 @@ package villegas.marco.proyecto_final.networking.Models
 
 import org.json.JSONObject
 
-/**
- * Interface para las peticiones
- * @property url: URL de la petición
- * @property method: Method de la petición
- * @property encoding: Codificación de la petición
- * @property parameters: Parámetros de la petición, pueden no existir en peditiones GET
- */
+// Contrato que debe cumplir cualquier modelo usado por RequestManager.
 interface TargetType {
+    // URL completa de la peticion.
     var url: String
+
+    // Metodo HTTP que se va a ejecutar.
     var method: HTTPMethod
+
+    // Forma en la que se mandan los parametros.
     var encoding: Encoding
+
+    // Parametros opcionales de la peticion.
     var parameters: JSONObject?
 }

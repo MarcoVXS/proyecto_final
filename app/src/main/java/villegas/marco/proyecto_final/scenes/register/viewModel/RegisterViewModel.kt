@@ -1,28 +1,29 @@
 package villegas.marco.proyecto_final.scenes.register.viewModel
 
 import android.content.Context
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import villegas.marco.proyecto_final.sharedPreference.SharedPreferenceConstants
-import villegas.marco.proyecto_final.sharedPreference.SharedPreferenceManager
 import villegas.marco.proyecto_final.dataClass.RegisterUser
 import villegas.marco.proyecto_final.scenes.base.BaseActivity
 import villegas.marco.proyecto_final.scenes.register.model.RegisterModel
+import villegas.marco.proyecto_final.sharedPreference.SharedPreferenceConstants
+import villegas.marco.proyecto_final.sharedPreference.SharedPreferenceManager
 
+// ViewModel del registro. Valida datos y los guarda en SharedPreferences.
 class RegisterViewModel(val context: Context, val activity: BaseActivity) : ViewModel() {
 
     private val model = RegisterModel()
     private val sharedPreferenceManager = SharedPreferenceManager(context)
 
+    // Permite leer y actualizar el usuario dentro del modelo.
     var user: RegisterUser
         get() = this.model.user
         set(value) { this.model.user = value }
 
-    // Obtener LiveData para validaciones
+    // Estados observables del formulario.
     val isValidForm: LiveData<Boolean>
         get() = this.model.isValidForm
 
@@ -38,6 +39,7 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
     val isValidPasswordConfirm: LiveData<Boolean>
         get() = this.model.isValidPasswordConfirm
 
+    // Mensajes de error observables para cada campo.
     val emailError: LiveData<String?>
         get() = this.model.emailError
 
@@ -50,13 +52,14 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
     val passwordConfirmError: LiveData<String?>
         get() = this.model.passwordConfirmError
 
+    // Estados para loading y registro exitoso.
     val isLoading: LiveData<Boolean>
         get() = this.model.isLoading
 
     val registerSuccess: LiveData<Boolean>
         get() = this.model.registerSuccess
 
-    // Validación general del formulario
+    // El formulario solo es valido si todos los campos son validos.
     private fun validateForm() {
         val ok =
             (this.model.isValidEmail.value == true) &&
@@ -66,6 +69,8 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
 
         this.model.isValidForm.value = ok
     }
+
+    // Valida que el correo no este vacio y tenga formato de email.
     fun validateEmail() {
         val email = this.user.email.trim()
 
@@ -75,7 +80,7 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
                 this.model.isValidEmail.value = false
             }
             !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches() -> {
-                this.model.emailError.value = "Correo inválido"
+                this.model.emailError.value = "Correo invalido"
                 this.model.isValidEmail.value = false
             }
             else -> {
@@ -87,6 +92,7 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
         validateForm()
     }
 
+    // Valida que el nombre tenga longitud correcta y solo letras.
     fun validateName() {
         val name = this.user.userName.trim()
 
@@ -99,7 +105,7 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
                 this.model.nameError.value = "Debe tener entre 2 y 30 caracteres"
                 this.model.isValidName.value = false
             }
-            !Regex("^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ ]+$").matches(name) -> {
+            !Regex("^[\\p{L} ]+$").matches(name) -> {
                 this.model.nameError.value = "Solo se permiten letras"
                 this.model.isValidName.value = false
             }
@@ -112,13 +118,13 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
         validateForm()
     }
 
+    // Valida que la contrasena sea segura para este ejercicio.
     fun validatePassword() {
-        // Eliminar espacios en blanco
         val password = this.user.password.trim()
 
         when {
             password.isBlank() -> {
-                this.model.passwordError.value = "La contraseña es obligatoria"
+                this.model.passwordError.value = "La contrasena es obligatoria"
                 this.model.isValidPassword.value = false
             }
             password.length < 8 -> {
@@ -135,7 +141,7 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
                 val hasDigit = password.any { it.isDigit() }
 
                 if (!(hasUpper && hasLower && hasDigit)) {
-                    this.model.passwordError.value = "Incluye mayúscula, minúscula y número"
+                    this.model.passwordError.value = "Incluye mayuscula, minuscula y numero"
                     this.model.isValidPassword.value = false
                 } else {
                     this.model.passwordError.value = null
@@ -144,23 +150,23 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
             }
         }
 
-        // Como confirmar depende de password, recalculamos confirm también
+        // Confirmar contrasena depende de la contrasena principal.
         validatePasswordConfirm()
         validateForm()
     }
 
+    // Valida que la confirmacion coincida con la contrasena.
     fun validatePasswordConfirm() {
-        // Eliminar espacios en blanco
         val password = this.user.password.trim()
         val confirm = this.user.passwordConfirm.trim()
 
         when {
             confirm.isBlank() -> {
-                this.model.passwordConfirmError.value = "Confirma la contraseña"
+                this.model.passwordConfirmError.value = "Confirma la contrasena"
                 this.model.isValidPasswordConfirm.value = false
             }
             password != confirm -> {
-                this.model.passwordConfirmError.value = "Las contraseñas no coinciden"
+                this.model.passwordConfirmError.value = "Las contrasenas no coinciden"
                 this.model.isValidPasswordConfirm.value = false
             }
             else -> {
@@ -172,20 +178,18 @@ class RegisterViewModel(val context: Context, val activity: BaseActivity) : View
         validateForm()
     }
 
-    // Acción registrar
+    // Guarda el usuario registrado y simula una pequena carga.
     fun register() {
         if (this.model.isValidForm.value != true) return
 
         this.model.isLoading.value = true
         this.model.registerSuccess.value = false
 
-        // Guardar datos de usuario
-        this.sharedPreferenceManager.setString(SharedPreferenceConstants.PASSWORD_KEY,user.password)
-        this.sharedPreferenceManager.setString(SharedPreferenceConstants.USER_NAME_KEY,user.userName)
-        this.sharedPreferenceManager.setString(SharedPreferenceConstants.USER_EMAIL_KEY,user.email)
-
-        // Registro exitoso
-        this.sharedPreferenceManager.setBoolean(SharedPreferenceConstants.IS_REGISTERED_KEY,true)
+        // Datos que despues usa el login para validar acceso.
+        this.sharedPreferenceManager.setString(SharedPreferenceConstants.PASSWORD_KEY, user.password)
+        this.sharedPreferenceManager.setString(SharedPreferenceConstants.USER_NAME_KEY, user.userName)
+        this.sharedPreferenceManager.setString(SharedPreferenceConstants.USER_EMAIL_KEY, user.email)
+        this.sharedPreferenceManager.setBoolean(SharedPreferenceConstants.IS_REGISTERED_KEY, true)
 
         viewModelScope.launch {
             delay(1200)

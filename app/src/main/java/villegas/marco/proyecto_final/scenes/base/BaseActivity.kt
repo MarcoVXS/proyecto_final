@@ -4,54 +4,47 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 
+// Activity base para registrar el ciclo de vida de las pantallas.
 open class BaseActivity: AppCompatActivity() {
     private val TAG: String = this::class.java.simpleName
 
-    // Se ejecuta cuando la Activity (ventana) se crea por primera vez y se inicializan componentes
-    // básicos como la interfaz, variables, ViewBinding, listeners, etc.
+    // Se ejecuta cuando la Activity se crea por primera vez.
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d(TAG, "onCreate")
     }
 
-    // Se llama cuando la Activity se vuelve visible para el usuario.
-    // La Activity está en pantalla pero todavía no es interactiva.
+    // Se llama cuando la Activity se vuelve visible.
     override fun onStart() {
         super.onStart()
         Log.d(TAG, "onStart")
     }
 
-    // Se ejecuta justo antes de que la Activity empiece a interactuar con el usuario.
-    // Aquí se reanudan animaciones, sensores o recursos que se pausaron.
+    // Se ejecuta cuando la Activity puede interactuar con el usuario.
     override fun onResume() {
         super.onResume()
         Log.d(TAG, "onResume")
     }
 
-    // Se llama cuando la Activity pierde el foco, pero aún puede ser visible.
-    // Aquí se deben pausar tareas que consumen recursos, como animaciones o audio.
+    // Se llama cuando la Activity pierde el foco.
     override fun onPause() {
         super.onPause()
         Log.d(TAG, "onPause")
     }
 
-    // Se ejecuta cuando la Activity deja de ser visible.
-    // Aquí se liberan recursos pesados o se guardan datos persistentes.
+    // Se ejecuta cuando la Activity deja de verse en pantalla.
     override fun onStop() {
         super.onStop()
         Log.d(TAG, "onStop")
     }
 
     // Se llama cuando la Activity se destruye completamente.
-    // Aquí se realiza la limpieza final de recursos para evitar memory leaks.
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy")
     }
 
-    // se invoca cuando una actividad que ha sido detenida (onStop()) vuelve a ser iniciada por el
-    // usuario, preparándola para regresar al primer plano. Es el paso intermedio antes de onStart()
-    // y permite actualizar datos específicos.
+    // Se invoca cuando una Activity detenida vuelve a iniciar.
     override fun onRestart() {
         super.onRestart()
         Log.d(TAG, "onRestart")
